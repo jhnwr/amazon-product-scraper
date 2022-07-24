@@ -16,16 +16,13 @@ def http_client():
     )
 
     def log_url(res, *args, **kwargs):
-        logging.info(res.url)
+        logging.info(f"{res.url}, {res.status_code}")
 
-    def check_status(res, *args, **kwargs):
-        res.raise_for_status()
-
-    session.hooks["response"] = log_url, check_status
+    session.hooks["response"] = log_url
     return session
 
 
-def open_asins_from_file(filename):
+def open_asins_from_file(filename: str):
     logging.info(f"opening {filename}")
     lines = []
     with open(filename, newline='') as f:
@@ -36,28 +33,34 @@ def open_asins_from_file(filename):
     return lines
 
 
-def make_request(client, baseurl, asin):
+def make_request(client, baseurl: str, asin: str):
     try:
         response = client.get(baseurl + asin)
-    except:
+    except requests.RequestException:
         logging.warning(f"HTTP Error for {asin}")
         return
-    return response, asin
+    if response.status_code == 200:
+        return response, asin
 
 
-def extract_data(response):
+def extract_data(response: tuple):
     soup = BeautifulSoup(response[0].text, 'lxml')
     asin = response[1]
-    item = (
-        asin,
-        soup.select_one("span#productTitle").text.strip(),
-        soup.select_one("span.a-price span").text,
-    )
-    logging.info(f'scraped item sucessfully {item}')
-    return item
+    try:
+        item = (
+            asin,
+            soup.select_one("span#productTitle").text.strip(),
+            soup.select_one("span.a-price span").text,
+        )
+        logging.info(f'scraped item successfully {item}')
+        return item
+    except AttributeError:
+        logging.info(f"No Matching Selectors found for {asin}")
+        item = (asin, "no data", "no data")
+        return item
 
 
-def save_to_csv(results):
+def save_to_csv(results: list):
     with open('results.csv', 'w') as f:
         csv_writer = csv.writer(f)
         for line in results:
@@ -85,5 +88,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
