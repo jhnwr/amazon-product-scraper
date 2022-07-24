@@ -19,9 +19,8 @@ These 3 methods grow in complexity, but are still relatively simple, I just had 
 
 ## Help
 
-Any advise for common problems or issues.
 ```
-command to run if program contains helper info
+YouTube Video Link to be added soon
 ```
 
 ## Authors
