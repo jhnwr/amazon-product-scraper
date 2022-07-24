@@ -27,8 +27,8 @@ YouTube Video Link to be added soon
 
 Contributors names and contact info
 
-ex. John Rooney 
-ex. [@jhnwr](https://twitter.com/jhnwr)
+John Rooney 
+[@jhnwr](https://twitter.com/jhnwr)
 
 ## Version History
 
