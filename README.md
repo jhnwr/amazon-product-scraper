@@ -20,7 +20,7 @@ These 3 methods grow in complexity, but are still relatively simple, I just had 
 ## Help
 
 ```
-YouTube Video Link to be added soon
+https://youtu.be/-0SSdvwK6Ho
 ```
 
 ## Authors
